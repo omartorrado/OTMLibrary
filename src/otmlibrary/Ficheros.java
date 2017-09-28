@@ -152,6 +152,35 @@ public class Ficheros {
         } catch (IOException ex) {
             Logger.getLogger(Ficheros.class.getName()).log(Level.SEVERE, null, ex);
             return false;
-        }        
+        }
+    }
+
+    public static boolean copiar(File archivoOriginal, File archivoCopia) {
+        int byteActual = 0;
+        try {
+            FileInputStream fInput = new FileInputStream(archivoOriginal);
+            FileOutputStream fOutput = new FileOutputStream(archivoCopia, false);
+            BufferedInputStream bInput = new BufferedInputStream(fInput);
+            BufferedOutputStream bOutput = new BufferedOutputStream(fOutput);
+            while (byteActual != -1) {
+                byteActual = bInput.read();
+                if (byteActual != -1) {
+                    bOutput.write(byteActual);
+                } else {
+                    bOutput.close();
+                    bInput.close();
+                    fOutput.close();
+                    fInput.close();
+                    return true;
+                }
+            }
+            return true;
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Ficheros.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } catch (IOException ex) {
+            Logger.getLogger(Ficheros.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 }
